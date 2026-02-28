@@ -227,13 +227,13 @@ export default function PropertyManagement() {
               <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Monthly Rent
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Lease End
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Status
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Maintenance
               </TableHead>
               <TableHead className="w-10" />
@@ -261,17 +261,17 @@ export default function PropertyManagement() {
                   <TableCell className="text-sm font-medium text-[#f8fafc]">
                     {formatCurrency(row.monthlyRent)}
                   </TableCell>
-                  <TableCell className="text-sm text-[#94a3b8]">
+                  <TableCell className="hidden md:table-cell text-sm text-[#94a3b8]">
                     {formatDate(row.leaseEnd)}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden md:table-cell">
                     <span
                       className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${badge.bg} ${badge.text}`}
                     >
                       {badge.label}
                     </span>
                   </TableCell>
-                  <TableCell className="text-sm text-[#94a3b8]">
+                  <TableCell className="hidden md:table-cell text-sm text-[#94a3b8]">
                     {maintenanceCount > 0 ? (
                       <span className="inline-flex items-center gap-1 text-orange-400">
                         <Wrench className="h-3.5 w-3.5" />

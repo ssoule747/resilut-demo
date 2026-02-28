@@ -247,7 +247,7 @@ export default function DealDetailSheet({ property, open, onOpenChange }) {
   if (!property) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="right" className="w-[640px] sm:max-w-[640px] bg-[#020617] border-l border-white/6 p-0">
+        <SheetContent side="right" className="w-full max-w-[640px] bg-[#020617] border-l border-white/6 p-0">
           <SheetHeader className="p-6">
             <SheetTitle className="text-[#f8fafc]">No property selected</SheetTitle>
             <SheetDescription className="text-[#64748b]">Select a deal to view details.</SheetDescription>
@@ -267,7 +267,7 @@ export default function DealDetailSheet({ property, open, onOpenChange }) {
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="w-[640px] sm:max-w-[640px] bg-[#020617] border-l border-white/6 p-0"
+        className="w-full max-w-[640px] bg-[#020617] border-l border-white/6 p-0"
       >
         <ScrollArea className="h-full">
           {/* ── 1. Property Header ── */}
@@ -308,7 +308,7 @@ export default function DealDetailSheet({ property, open, onOpenChange }) {
                   Deal Intake Transformation
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-3 px-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 px-6">
                 <RawSubmissionCard />
                 <AIProcessedCard />
               </div>
@@ -390,7 +390,7 @@ export default function DealDetailSheet({ property, open, onOpenChange }) {
 
           {/* ── 6. Action Buttons ── */}
           <div className="px-6 py-4 mt-4 border-t border-white/6 sticky bottom-0 bg-[#020617]">
-            <div className="flex gap-3">
+            <div className="flex flex-col gap-2 md:flex-row md:gap-3">
               <Button
                 className="bg-[#3b82f6] hover:bg-[#2563eb] text-white"
                 onClick={() => {

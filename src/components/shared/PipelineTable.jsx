@@ -41,8 +41,8 @@ export default function PipelineTable({ onSelectDeal }) {
   return (
     <div>
       {/* Filter bar */}
-      <div className="mb-4 flex items-center gap-4">
-        <div className="flex flex-1 items-center gap-3">
+      <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+        <div className="flex flex-1 flex-col gap-3 md:flex-row md:items-center">
           {/* Search input */}
           <div className="relative">
             <SearchIcon className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#64748b]" />
@@ -50,13 +50,13 @@ export default function PipelineTable({ onSelectDeal }) {
               placeholder="Search deals..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="h-9 w-64 border-white/6 bg-[#0f172a] pl-9 text-[#f8fafc] placeholder:text-[#64748b]"
+              className="h-9 w-full md:w-64 border-white/6 bg-[#0f172a] pl-9 text-[#f8fafc] placeholder:text-[#64748b]"
             />
           </div>
 
           {/* Status filter */}
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="h-9 w-48 border-white/6 bg-[#0f172a] text-[#94a3b8]">
+            <SelectTrigger className="h-9 w-full md:w-48 border-white/6 bg-[#0f172a] text-[#94a3b8]">
               <SelectValue placeholder="All Statuses" />
             </SelectTrigger>
             <SelectContent className="border-white/6 bg-[#0f172a]">
@@ -90,10 +90,10 @@ export default function PipelineTable({ onSelectDeal }) {
               <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 City
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Wholesaler
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Submitted
               </TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
@@ -121,10 +121,10 @@ export default function PipelineTable({ onSelectDeal }) {
                 <TableCell className="text-sm text-[#94a3b8]">
                   {property.city}, {property.state}
                 </TableCell>
-                <TableCell className="text-sm text-[#94a3b8]">
+                <TableCell className="hidden md:table-cell text-sm text-[#94a3b8]">
                   {getWholesalerById(property.wholesalerId)?.name}
                 </TableCell>
-                <TableCell className="font-mono text-sm text-[#64748b]">
+                <TableCell className="hidden md:table-cell font-mono text-sm text-[#64748b]">
                   {new Date(property.submittedDate).toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',

@@ -13,7 +13,7 @@ import {
   Star,
 } from 'lucide-react'
 
-const navItems = [
+export const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/pipeline', label: 'Deal Pipeline', icon: Inbox },
   { path: '/inspection', label: 'Inspection', icon: Search },
@@ -25,7 +25,7 @@ const navItems = [
   { path: '/copilot', label: 'AI Copilot', icon: Bot, badge: 'AI' },
 ]
 
-const badgeStyles = {
+export const badgeStyles = {
   Priority: 'bg-[#f59e0b]/10 text-[#f59e0b]',
   AI: 'bg-[#8b5cf6]/10 text-[#8b5cf6]',
 }
@@ -33,7 +33,7 @@ const badgeStyles = {
 export default function Sidebar({ isCollapsed, onToggle }) {
   return (
     <aside
-      className="fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-white/6 bg-[#0f172a] transition-all duration-200"
+      className="fixed left-0 top-0 z-40 hidden md:flex h-screen flex-col border-r border-white/6 bg-[#0f172a] transition-all duration-200"
       style={{ width: isCollapsed ? '64px' : '240px' }}
     >
       {/* Logo area */}

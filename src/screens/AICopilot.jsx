@@ -15,6 +15,8 @@ import {
   Clock,
 } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
+import { useMediaQuery } from '@/lib/useMediaQuery'
 import {
   Select,
   SelectTrigger,
@@ -478,6 +480,8 @@ const categoryOrder = ['Finance', 'Marketing', 'Operations', 'Acquisitions', 'Le
 // Main component
 // ---------------------------------------------------------------------------
 export default function AICopilot() {
+  const isMobile = useMediaQuery('(max-width: 767px)')
+  const [templateSheetOpen, setTemplateSheetOpen] = useState(false)
   const [messages, setMessages] = useState(initialMessages)
   const [inputValue, setInputValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -606,12 +610,12 @@ export default function AICopilot() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="flex gap-4 h-[calc(100vh-7rem)]"
+      className="flex flex-col md:flex-row gap-4 h-[calc(100vh-7rem)]"
     >
       {/* ================================================================= */}
       {/* LEFT PANEL: Chat Interface */}
       {/* ================================================================= */}
-      <div className="flex-[7] flex flex-col glass-card overflow-hidden">
+      <div className="flex-1 md:flex-[7] flex flex-col glass-card overflow-hidden">
         {/* Top bar */}
         <div className="flex items-center justify-between px-5 py-3.5 border-b border-[#1e293b]">
           <div className="flex items-center gap-3">
@@ -627,7 +631,7 @@ export default function AICopilot() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Badge className="bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20 text-[10px] font-normal gap-1">
+            <Badge className="hidden md:inline-flex bg-[#3b82f6]/10 text-[#3b82f6] border-[#3b82f6]/20 text-[10px] font-normal gap-1">
               <Sparkles size={10} />
               Powered by Claude
             </Badge>
@@ -715,10 +719,227 @@ export default function AICopilot() {
         </div>
       </div>
 
+      {/* Mobile floating button to open template sheet */}
+      {isMobile && (
+        <button
+          onClick={() => setTemplateSheetOpen(true)}
+          className="fixed bottom-24 right-4 z-40 w-12 h-12 rounded-full bg-[#8b5cf6] text-white flex items-center justify-center shadow-lg shadow-[#8b5cf6]/20"
+        >
+          <FileText size={20} />
+        </button>
+      )}
+
+      {/* Mobile template sheet */}
+      {isMobile && (
+        <Sheet open={templateSheetOpen} onOpenChange={setTemplateSheetOpen}>
+          <SheetContent side="bottom" className="bg-[#0f172a] border-t border-white/10 h-[75vh] p-0 rounded-t-2xl">
+            <SheetTitle className="sr-only">Templates</SheetTitle>
+            <div className="p-4 space-y-4 overflow-y-auto h-full">
+              {/* Template selector */}
+              <div className="glass-card p-4 flex flex-col gap-4">
+                <div className="flex items-center gap-2">
+                  <FileText size={16} className="text-[#8b5cf6]" />
+                  <h3 className="font-heading text-sm font-semibold text-[#f8fafc]">Templates</h3>
+                  <Badge className="bg-[#8b5cf6]/10 text-[#8b5cf6] border-[#8b5cf6]/20 text-[10px] font-normal ml-auto">
+                    {copilotTemplates.length}
+                  </Badge>
+                </div>
+
+                <Select value={selectedTemplateId || ''} onValueChange={(v) => setSelectedTemplateId(v)}>
+                  <SelectTrigger className="w-full bg-[#0f172a]/60 border-[#1e293b] text-sm text-[#e2e8f0] h-9">
+                    <SelectValue placeholder="Choose a template..." />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[#0f172a] border-[#1e293b]">
+                    {categoryOrder.map((category) => {
+                      const templates = templateCategories[category]
+                      if (!templates) return null
+                      return templates.map((tpl) => (
+                        <SelectItem
+                          key={tpl.id}
+                          value={tpl.id}
+                          className="text-[#e2e8f0] text-sm focus:bg-[#1e293b] focus:text-[#f8fafc]"
+                        >
+                          <span className="flex items-center gap-2">
+                            <span
+                              className="w-1.5 h-1.5 rounded-full shrink-0"
+                              style={{
+                                backgroundColor:
+                                  category === 'Finance'
+                                    ? '#10b981'
+                                    : category === 'Marketing'
+                                      ? '#3b82f6'
+                                      : category === 'Operations'
+                                        ? '#f97316'
+                                        : category === 'Acquisitions'
+                                          ? '#8b5cf6'
+                                          : '#ef4444',
+                              }}
+                            />
+                            {tpl.name}
+                          </span>
+                        </SelectItem>
+                      ))
+                    })}
+                  </SelectContent>
+                </Select>
+
+                <AnimatePresence mode="wait">
+                  {selectedTemplate ? (
+                    <motion.div
+                      key={selectedTemplate.id}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
+                      className="space-y-4"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2">
+                          <Badge
+                            className="text-[10px] font-normal border"
+                            style={{
+                              backgroundColor:
+                                selectedTemplate.category === 'Finance'
+                                  ? 'rgba(16,185,129,0.1)'
+                                  : selectedTemplate.category === 'Marketing'
+                                    ? 'rgba(59,130,246,0.1)'
+                                    : selectedTemplate.category === 'Operations'
+                                      ? 'rgba(249,115,22,0.1)'
+                                      : selectedTemplate.category === 'Acquisitions'
+                                        ? 'rgba(139,92,246,0.1)'
+                                        : 'rgba(239,68,68,0.1)',
+                              color:
+                                selectedTemplate.category === 'Finance'
+                                  ? '#10b981'
+                                  : selectedTemplate.category === 'Marketing'
+                                    ? '#3b82f6'
+                                    : selectedTemplate.category === 'Operations'
+                                      ? '#f97316'
+                                      : selectedTemplate.category === 'Acquisitions'
+                                        ? '#8b5cf6'
+                                        : '#ef4444',
+                              borderColor:
+                                selectedTemplate.category === 'Finance'
+                                  ? 'rgba(16,185,129,0.2)'
+                                  : selectedTemplate.category === 'Marketing'
+                                    ? 'rgba(59,130,246,0.2)'
+                                    : selectedTemplate.category === 'Operations'
+                                      ? 'rgba(249,115,22,0.2)'
+                                      : selectedTemplate.category === 'Acquisitions'
+                                        ? 'rgba(139,92,246,0.2)'
+                                        : 'rgba(239,68,68,0.2)',
+                            }}
+                          >
+                            {selectedTemplate.category}
+                          </Badge>
+                        </div>
+                        <h4 className="font-heading text-sm font-semibold text-[#f8fafc]">
+                          {selectedTemplate.name}
+                        </h4>
+                        <p className="text-xs text-[#94a3b8] leading-relaxed">
+                          {selectedTemplate.description}
+                        </p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[11px] text-[#64748b] font-medium uppercase tracking-wider">
+                          Select Property
+                        </label>
+                        <Select
+                          value={selectedPropertyId || ''}
+                          onValueChange={(v) => setSelectedPropertyId(v)}
+                        >
+                          <SelectTrigger className="w-full bg-[#0f172a]/60 border-[#1e293b] text-sm text-[#e2e8f0] h-9">
+                            <SelectValue placeholder="Choose property..." />
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#0f172a] border-[#1e293b]">
+                            {properties.map((p) => (
+                              <SelectItem
+                                key={p.id}
+                                value={p.id}
+                                className="text-[#e2e8f0] text-sm focus:bg-[#1e293b] focus:text-[#f8fafc]"
+                              >
+                                {p.address}, {p.city}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          handleUseTemplate()
+                          setTemplateSheetOpen(false)
+                        }}
+                        disabled={!apiConfigured}
+                        className="w-full py-2.5 rounded-lg bg-[#3b82f6] hover:bg-[#3b82f6]/90 disabled:bg-[#1e293b] disabled:text-[#475569] text-white text-sm font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:cursor-not-allowed"
+                      >
+                        <Sparkles size={14} />
+                        Use Template
+                      </button>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="flex flex-col items-center justify-center text-center px-4 py-6"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-[#1e293b] border border-[#334155] flex items-center justify-center mb-3">
+                        <FileText size={20} className="text-[#475569]" />
+                      </div>
+                      <p className="text-xs text-[#64748b] leading-relaxed">
+                        Select a template to generate AI-powered documents, communications, and analyses
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {/* Template performance */}
+              <TemplatePerformance template={selectedTemplate} />
+
+              {/* Session Stats */}
+              <div className="glass-card p-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <Zap size={14} className="text-[#3b82f6]" />
+                  <h4 className="font-heading text-xs font-semibold text-[#f8fafc]">Session Stats</h4>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <p className="text-lg font-heading font-semibold text-[#f8fafc]">
+                      {messages.filter((m) => m.role === 'assistant').length}
+                    </p>
+                    <p className="text-[10px] text-[#475569]">Generations</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-heading font-semibold text-[#10b981]">
+                      {messages.filter((m) => m.feedback === 'accepted').length}
+                    </p>
+                    <p className="text-[10px] text-[#475569]">Accepted</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-heading font-semibold text-[#f97316]">
+                      {messages.filter((m) => m.feedback === 'edited').length}
+                    </p>
+                    <p className="text-[10px] text-[#475569]">Edited</p>
+                  </div>
+                  <div>
+                    <p className="text-lg font-heading font-semibold text-[#ef4444]">
+                      {messages.filter((m) => m.feedback === 'rejected').length}
+                    </p>
+                    <p className="text-[10px] text-[#475569]">Rejected</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      )}
+
       {/* ================================================================= */}
       {/* RIGHT PANEL: Template Sidebar */}
       {/* ================================================================= */}
-      <div className="flex-[3] flex flex-col gap-4 min-w-0">
+      <div className="hidden md:flex md:flex-[3] flex-col gap-4 min-w-0">
         {/* Template selector */}
         <div className="glass-card p-4 flex flex-col gap-4 flex-1 overflow-hidden">
           <div className="flex items-center gap-2">

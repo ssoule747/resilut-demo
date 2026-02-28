@@ -71,13 +71,13 @@ export default function RenovationScope() {
       )}
 
       {/* Three-panel layout */}
-      <div className="flex gap-5 items-start">
+      <div className="flex flex-col gap-5 md:flex-row md:items-start">
         {/* Left: Defect Sidebar — fixed 220px */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="w-[220px] shrink-0"
+          className="w-full md:w-[220px] md:shrink-0"
         >
           <DefectSidebar
             defects={defectLedger}
@@ -105,7 +105,7 @@ export default function RenovationScope() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="w-[280px] shrink-0"
+          className="w-full md:w-[280px] md:shrink-0"
         >
           <CostSummary
             scope={renovationScope}

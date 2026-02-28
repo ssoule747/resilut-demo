@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Bell, X } from 'lucide-react'
+import { Bell, X, Menu } from 'lucide-react'
 
 const pageTitles = {
   '/dashboard': 'Dashboard',
@@ -20,7 +20,7 @@ const notifications = [
   { id: 3, text: 'Renovation scope approved — Oak Drive', time: '1h ago' },
 ]
 
-export default function TopBar({ sidebarCollapsed }) {
+export default function TopBar({ sidebarCollapsed, isMobile, onMobileMenuOpen }) {
   const location = useLocation()
   const title = pageTitles[location.pathname] || 'Dashboard'
   const [notifOpen, setNotifOpen] = useState(false)
@@ -30,14 +30,24 @@ export default function TopBar({ sidebarCollapsed }) {
 
   return (
     <header
-      className="fixed top-0 right-0 z-30 flex h-16 items-center justify-between border-b border-white/6 bg-[#020617] px-6 transition-all duration-200"
-      style={{ left: sidebarCollapsed ? '64px' : '240px' }}
+      className="fixed top-0 right-0 z-30 flex h-16 items-center justify-between border-b border-white/6 bg-[#020617] px-4 md:px-6 transition-all duration-200"
+      style={{ left: isMobile ? '0' : (sidebarCollapsed ? '64px' : '240px') }}
     >
-      {/* Left side — page title */}
-      <h1 className="font-heading text-lg font-semibold text-[#f8fafc]">{title}</h1>
+      {/* Left side — hamburger + page title */}
+      <div className="flex items-center gap-3 min-w-0">
+        {isMobile && (
+          <button
+            onClick={onMobileMenuOpen}
+            className="text-[#94a3b8] hover:text-[#f8fafc] transition-colors shrink-0"
+          >
+            <Menu className="h-5 w-5" />
+          </button>
+        )}
+        <h1 className="font-heading text-base md:text-lg font-semibold text-[#f8fafc] truncate">{title}</h1>
+      </div>
 
       {/* Right side — notifications + user */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 md:gap-4 shrink-0">
         {/* Notification bell */}
         <div className="relative">
           <button
@@ -54,7 +64,7 @@ export default function TopBar({ sidebarCollapsed }) {
           </button>
 
           {notifOpen && (
-            <div className="absolute right-0 top-10 w-80 bg-[#0f172a] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
+            <div className="absolute right-0 top-10 w-[calc(100vw-2rem)] max-w-80 bg-[#0f172a] border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden">
               <div className="px-4 py-3 border-b border-white/6 flex items-center justify-between">
                 <span className="text-xs font-semibold text-[#f8fafc] uppercase tracking-wider">Notifications</span>
                 <span className="text-[10px] font-mono text-[#3b82f6] bg-[#3b82f6]/10 px-2 py-0.5 rounded-full">{activeNotifs.length}</span>
@@ -89,7 +99,7 @@ export default function TopBar({ sidebarCollapsed }) {
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#3b82f6]">
             <span className="text-xs font-semibold text-white">AA</span>
           </div>
-          <span className="text-sm text-[#94a3b8]">Abdullateef</span>
+          <span className="text-sm text-[#94a3b8] hidden md:inline">Abdullateef</span>
         </div>
       </div>
     </header>

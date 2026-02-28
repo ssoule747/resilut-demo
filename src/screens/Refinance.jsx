@@ -140,13 +140,13 @@ export default function Refinance() {
               <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Address
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 DSCR
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Months Occupied
               </TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
+              <TableHead className="hidden md:table-cell text-xs font-medium uppercase tracking-wider text-[#64748b]">
                 Est. Appraisal
               </TableHead>
               <TableHead className="text-xs font-medium uppercase tracking-wider text-[#64748b]">
@@ -186,13 +186,13 @@ export default function Refinance() {
                               <td className="px-4 py-3 text-sm font-medium text-[#f8fafc]">
                                 {address}
                               </td>
-                              <td className="px-4 py-3 text-sm text-[#f8fafc]">
+                              <td className="hidden md:table-cell px-4 py-3 text-sm text-[#f8fafc]">
                                 {item.dscr.toFixed(2)}
                               </td>
-                              <td className="px-4 py-3 text-sm text-[#94a3b8]">
+                              <td className="hidden md:table-cell px-4 py-3 text-sm text-[#94a3b8]">
                                 {item.monthsOccupied}
                               </td>
-                              <td className="px-4 py-3 text-sm text-[#f8fafc]">
+                              <td className="hidden md:table-cell px-4 py-3 text-sm text-[#f8fafc]">
                                 {formatCurrency(item.estimatedAppraisal)}
                               </td>
                               <td className="px-4 py-3 text-sm font-medium text-[#10b981]">

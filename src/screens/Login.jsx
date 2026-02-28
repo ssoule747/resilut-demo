@@ -194,7 +194,7 @@ export default function Login() {
 
       {/* Login card */}
       <div
-        className="relative flex items-center justify-center min-h-screen"
+        className="relative flex items-center justify-center min-h-screen px-4"
         style={{ zIndex: 10 }}
       >
         <motion.div
@@ -217,11 +217,11 @@ export default function Login() {
             boxShadow:
               '0 0 60px rgba(59,130,246,0.08), 0 25px 50px rgba(0,0,0,0.4)',
           }}
-          className="px-12 py-10 w-[420px]"
+          className="px-6 py-8 md:px-12 md:py-10 w-full max-w-[420px]"
         >
           {/* Logo */}
           <div className="text-center">
-            <h1 className="font-heading text-3xl font-bold text-white tracking-[0.25em] uppercase">
+            <h1 className="font-heading text-2xl md:text-3xl font-bold text-white tracking-[0.25em] uppercase">
               RESILUT
             </h1>
             <div
