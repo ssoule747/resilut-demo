@@ -39,9 +39,9 @@ export default function TopBar({ sidebarCollapsed }) {
         {/* User avatar */}
         <div className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#3b82f6]">
-            <span className="text-xs font-semibold text-white">SA</span>
+            <span className="text-xs font-semibold text-white">AA</span>
           </div>
-          <span className="text-sm text-[#94a3b8]">Stuart</span>
+          <span className="text-sm text-[#94a3b8]">Abdullateef</span>
         </div>
       </div>
     </header>

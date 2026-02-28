@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   Home, Bed, Bath, Ruler, Calendar, MapPin, User, Clock, Zap,
-  CheckCircle2, AlertTriangle, ChevronRight, Image, ArrowRight,
+  CheckCircle2, AlertTriangle, ChevronRight, Image, ArrowRight, Send,
 } from 'lucide-react'
 import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
@@ -239,6 +241,8 @@ function SimplifiedDetail({ property }) {
 }
 
 export default function DealDetailSheet({ property, open, onOpenChange }) {
+  const navigate = useNavigate()
+  const [infoRequested, setInfoRequested] = useState(false)
   if (!property) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -386,12 +390,36 @@ export default function DealDetailSheet({ property, open, onOpenChange }) {
           {/* ── 6. Action Buttons ── */}
           <div className="px-6 py-4 mt-4 border-t border-white/6 sticky bottom-0 bg-[#020617]">
             <div className="flex gap-3">
-              <Button className="bg-[#3b82f6] hover:bg-[#2563eb] text-white">
+              <Button
+                className="bg-[#3b82f6] hover:bg-[#2563eb] text-white"
+                onClick={() => {
+                  onOpenChange(false)
+                  setTimeout(() => navigate('/inspection'), 200)
+                }}
+              >
                 Send to Inspection
                 <ArrowRight className="w-4 h-4 ml-1" />
               </Button>
-              <Button variant="outline" className="border-white/10 text-[#94a3b8]">
-                Request Info
+              <Button
+                variant="outline"
+                className={infoRequested
+                  ? 'border-[#10b981]/30 text-[#10b981] bg-[#10b981]/10'
+                  : 'border-white/10 text-[#94a3b8]'
+                }
+                onClick={() => setInfoRequested(true)}
+                disabled={infoRequested}
+              >
+                {infoRequested ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4 mr-1" />
+                    Info Requested
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-1" />
+                    Request Info
+                  </>
+                )}
               </Button>
               <Button variant="ghost" className="text-[#ef4444] hover:bg-[#ef4444]/10">
                 Reject
