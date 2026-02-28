@@ -19,7 +19,7 @@ export async function callClaude(systemPrompt, userMessage) {
         'anthropic-dangerous-direct-browser-access': 'true',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-sonnet-4-6-20250620',
         max_tokens: 1024,
         system: systemPrompt,
         messages: [
