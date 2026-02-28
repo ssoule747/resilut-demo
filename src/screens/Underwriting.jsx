@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import { CheckCircle, RotateCcw, XCircle } from 'lucide-react'
+import { CheckCircle, RotateCcw, XCircle, CheckCircle2 } from 'lucide-react'
 import DealScorecard from '@/components/underwriting/DealScorecard'
 import MetricsGrid from '@/components/underwriting/MetricsGrid'
 import SensitivityPanel from '@/components/underwriting/SensitivityPanel'
@@ -21,6 +22,8 @@ const fadeUp = {
 
 export default function Underwriting() {
   const navigate = useNavigate()
+  const [reviewRequested, setReviewRequested] = useState(false)
+  const [dealPassed, setDealPassed] = useState(false)
 
   return (
     <motion.div
@@ -55,14 +58,32 @@ export default function Underwriting() {
             <CheckCircle className="h-4 w-4" />
             Approve — Proceed to Acquisition
           </button>
-          <button className="inline-flex items-center gap-2 border border-white/[0.1] text-[#94a3b8] hover:text-[#f8fafc] hover:border-white/[0.2] px-6 py-3 rounded-xl text-sm transition-colors cursor-pointer">
-            <RotateCcw className="h-4 w-4" />
-            Request Additional Review
-          </button>
-          <button className="inline-flex items-center gap-2 text-[#ef4444]/60 hover:text-[#ef4444] px-6 py-3 rounded-xl text-sm transition-colors cursor-pointer">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setReviewRequested(true)}
+            disabled={reviewRequested}
+            className={`inline-flex items-center gap-2 border px-6 py-3 rounded-xl text-sm transition-all cursor-pointer ${
+              reviewRequested
+                ? 'border-[#f59e0b]/30 text-[#f59e0b] bg-[#f59e0b]/10'
+                : 'border-white/[0.1] text-[#94a3b8] hover:text-[#f8fafc] hover:border-white/[0.2]'
+            }`}
+          >
+            {reviewRequested ? <CheckCircle2 className="h-4 w-4" /> : <RotateCcw className="h-4 w-4" />}
+            {reviewRequested ? 'Review Requested' : 'Request Additional Review'}
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setDealPassed(true)}
+            disabled={dealPassed}
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm transition-all cursor-pointer ${
+              dealPassed
+                ? 'text-[#ef4444] bg-[#ef4444]/10 line-through'
+                : 'text-[#ef4444]/60 hover:text-[#ef4444]'
+            }`}
+          >
             <XCircle className="h-4 w-4" />
-            Pass on Deal
-          </button>
+            {dealPassed ? 'Deal Passed' : 'Pass on Deal'}
+          </motion.button>
         </div>
       </motion.div>
     </motion.div>

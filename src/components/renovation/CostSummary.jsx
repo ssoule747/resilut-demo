@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
-import { Zap, Download, FileText, Check, Clock, Shield } from 'lucide-react'
+import { Zap, Download, FileText, Check, Clock, Shield, CheckCircle2 } from 'lucide-react'
 
 const COLORS = [
   '#ef4444', '#f97316', '#eab308', '#06b6d4',
@@ -23,6 +24,8 @@ function fmt(n) {
 }
 
 export default function CostSummary({ scope, activeTrade }) {
+  const [sowDownloaded, setSowDownloaded] = useState(false)
+  const [changeOrderOpen, setChangeOrderOpen] = useState(false)
   const chartData = Object.entries(scope.trades).map(([key, t]) => ({
     name: t.trade,
     value: t.subtotal,
@@ -237,14 +240,39 @@ export default function CostSummary({ scope, activeTrade }) {
 
         {/* Action Buttons */}
         <div className="p-5 space-y-2.5">
-          <button className="flex items-center justify-center gap-2 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold w-full py-2.5 rounded-xl text-sm transition-colors cursor-pointer">
-            <Download className="w-4 h-4" />
-            Download SOW
-          </button>
-          <button className="flex items-center justify-center gap-2 border border-white/[0.1] text-[#94a3b8] hover:text-[#f8fafc] hover:border-white/[0.2] w-full py-2.5 rounded-xl text-sm transition-colors cursor-pointer">
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setSowDownloaded(true)}
+            className={`flex items-center justify-center gap-2 font-semibold w-full py-2.5 rounded-xl text-sm transition-all cursor-pointer ${
+              sowDownloaded
+                ? 'bg-[#10b981] text-white'
+                : 'bg-[#3b82f6] hover:bg-[#2563eb] text-white'
+            }`}
+          >
+            {sowDownloaded ? <CheckCircle2 className="w-4 h-4" /> : <Download className="w-4 h-4" />}
+            {sowDownloaded ? 'SOW Downloaded' : 'Download SOW'}
+          </motion.button>
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setChangeOrderOpen(!changeOrderOpen)}
+            className={`flex items-center justify-center gap-2 border w-full py-2.5 rounded-xl text-sm transition-all cursor-pointer ${
+              changeOrderOpen
+                ? 'border-[#3b82f6]/30 text-[#3b82f6] bg-[#3b82f6]/10'
+                : 'border-white/[0.1] text-[#94a3b8] hover:text-[#f8fafc] hover:border-white/[0.2]'
+            }`}
+          >
             <FileText className="w-4 h-4" />
-            View Change Order Analysis
-          </button>
+            {changeOrderOpen ? 'Change Order Analysis Open' : 'View Change Order Analysis'}
+          </motion.button>
+          {changeOrderOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              className="text-xs text-[#64748b] bg-[#0f172a] rounded-lg p-3 border border-white/5"
+            >
+              In production, this would show a detailed change order breakdown with variance analysis against the original scope, contractor bid comparisons, and approval workflow.
+            </motion.div>
+          )}
         </div>
       </div>
     </motion.div>

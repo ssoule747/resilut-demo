@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Hammer, RefreshCcw, ArrowLeft } from "lucide-react";
+import { Hammer, RefreshCcw, ArrowLeft, CheckCircle2 } from "lucide-react";
 
 export default function InspectionActions() {
   const navigate = useNavigate();
+  const [reInspectionRequested, setReInspectionRequested] = useState(false);
 
   return (
     <motion.div
@@ -23,14 +25,20 @@ export default function InspectionActions() {
       </button>
 
       {/* Outline — Request Re-Inspection */}
-      <button
-        onClick={() => console.log("Re-inspection requested")}
-        className="inline-flex items-center gap-2 border border-white/[0.1] text-[#94a3b8] hover:text-[#f8fafc] hover:border-white/[0.2] px-5 py-3 rounded-xl transition-colors duration-200 font-medium text-sm cursor-pointer"
+      <motion.button
+        whileTap={{ scale: 0.95 }}
+        onClick={() => setReInspectionRequested(true)}
+        disabled={reInspectionRequested}
+        className={`inline-flex items-center gap-2 border px-5 py-3 rounded-xl transition-all duration-200 font-medium text-sm cursor-pointer ${
+          reInspectionRequested
+            ? 'border-[#f59e0b]/30 text-[#f59e0b] bg-[#f59e0b]/10'
+            : 'border-white/[0.1] text-[#94a3b8] hover:text-[#f8fafc] hover:border-white/[0.2]'
+        }`}
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        <RefreshCcw className="w-4 h-4" />
-        Request Re-Inspection
-      </button>
+        {reInspectionRequested ? <CheckCircle2 className="w-4 h-4" /> : <RefreshCcw className="w-4 h-4" />}
+        {reInspectionRequested ? 'Re-Inspection Requested' : 'Request Re-Inspection'}
+      </motion.button>
 
       {/* Primary — Generate Renovation Scope */}
       <button

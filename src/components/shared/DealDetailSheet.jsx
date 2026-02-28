@@ -243,6 +243,7 @@ function SimplifiedDetail({ property }) {
 export default function DealDetailSheet({ property, open, onOpenChange }) {
   const navigate = useNavigate()
   const [infoRequested, setInfoRequested] = useState(false)
+  const [rejected, setRejected] = useState(false)
   if (!property) {
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -421,8 +422,16 @@ export default function DealDetailSheet({ property, open, onOpenChange }) {
                   </>
                 )}
               </Button>
-              <Button variant="ghost" className="text-[#ef4444] hover:bg-[#ef4444]/10">
-                Reject
+              <Button
+                variant="ghost"
+                className={rejected
+                  ? 'text-[#ef4444] bg-[#ef4444]/10 line-through'
+                  : 'text-[#ef4444] hover:bg-[#ef4444]/10'
+                }
+                onClick={() => setRejected(true)}
+                disabled={rejected}
+              >
+                {rejected ? 'Rejected' : 'Reject'}
               </Button>
             </div>
           </div>
