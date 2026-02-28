@@ -78,15 +78,15 @@ export default function Sidebar({ isCollapsed, onToggle }) {
             >
               <Icon className="h-5 w-5 shrink-0" />
               <span
-                className={`whitespace-nowrap transition-all duration-200 ${
-                  isCollapsed ? 'w-0 overflow-hidden opacity-0' : 'w-auto opacity-100'
+                className={`truncate transition-all duration-200 ${
+                  isCollapsed ? 'w-0 overflow-hidden opacity-0' : 'flex-1 min-w-0 opacity-100'
                 }`}
               >
                 {item.label}
               </span>
               {item.badge && (
                 <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase transition-all duration-200 ${
+                  className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase transition-all duration-200 ${
                     badgeStyles[item.badge] || ''
                   } ${isCollapsed ? 'hidden' : ''}`}
                 >
