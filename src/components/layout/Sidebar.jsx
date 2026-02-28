@@ -10,13 +10,14 @@ import {
   BarChart3,
   Bot,
   ChevronLeft,
+  Star,
 } from 'lucide-react'
 
 const navItems = [
   { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/pipeline', label: 'Deal Pipeline', icon: Inbox },
   { path: '/inspection', label: 'Inspection', icon: Search },
-  { path: '/renovation', label: 'Renovation Scope', icon: Hammer, badge: 'Priority' },
+  { path: '/renovation', label: 'Renovation Scope', icon: Hammer, badge: 'star' },
   { path: '/underwriting', label: 'Underwriting', icon: Calculator },
   { path: '/pm', label: 'Property Mgmt', icon: Home },
   { path: '/refinance', label: 'Refinance', icon: RefreshCcw },
@@ -84,14 +85,18 @@ export default function Sidebar({ isCollapsed, onToggle }) {
               >
                 {item.label}
               </span>
-              {item.badge && (
-                <span
-                  className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase transition-all duration-200 ${
-                    badgeStyles[item.badge] || ''
-                  } ${isCollapsed ? 'hidden' : ''}`}
-                >
-                  {item.badge}
-                </span>
+              {item.badge && !isCollapsed && (
+                item.badge === 'star' ? (
+                  <Star className="h-3.5 w-3.5 shrink-0 fill-[#f59e0b] text-[#f59e0b] drop-shadow-[0_0_6px_rgba(245,158,11,0.6)]" />
+                ) : (
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase transition-all duration-200 ${
+                      badgeStyles[item.badge] || ''
+                    }`}
+                  >
+                    {item.badge}
+                  </span>
+                )
               )}
             </NavLink>
           )
