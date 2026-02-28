@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Table,
@@ -168,63 +168,52 @@ export default function Refinance() {
               const isExpanded = expandedId === item.propertyId
 
               return (
-                <motion.tr
-                  key={item.propertyId}
-                  layout
-                  className="group"
-                >
+                <React.Fragment key={item.propertyId}>
                   {/* Main Row */}
-                  <TableCell colSpan={7} className="p-0">
-                    <div
-                      className="flex cursor-pointer items-center transition-colors hover:bg-[#1e293b]/50"
-                      onClick={() => toggleRow(item.propertyId)}
-                    >
-                      <div className="w-full">
-                        <table className="w-full">
-                          <tbody>
-                            <tr>
-                              <td className="px-4 py-3 text-sm font-medium text-[#f8fafc]">
-                                {address}
-                              </td>
-                              <td className="hidden md:table-cell px-4 py-3 text-sm text-[#f8fafc]">
-                                {item.dscr.toFixed(2)}
-                              </td>
-                              <td className="hidden md:table-cell px-4 py-3 text-sm text-[#94a3b8]">
-                                {item.monthsOccupied}
-                              </td>
-                              <td className="hidden md:table-cell px-4 py-3 text-sm text-[#f8fafc]">
-                                {formatCurrency(item.estimatedAppraisal)}
-                              </td>
-                              <td className="px-4 py-3 text-sm font-medium text-[#10b981]">
-                                {formatCurrency(item.estimatedCashOut)}
-                              </td>
-                              <td className="px-4 py-3">
-                                <span
-                                  className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                                    ready
-                                      ? 'bg-[#10b981]/15 text-[#10b981]'
-                                      : 'bg-[#f97316]/15 text-[#f97316]'
-                                  }`}
-                                >
-                                  {ready ? 'Ready' : 'Not Ready'}
-                                </span>
-                              </td>
-                              <td className="w-10 px-4 py-3">
-                                <ChevronDown
-                                  className={`h-4 w-4 text-[#64748b] transition-transform duration-200 ${
-                                    isExpanded ? 'rotate-180' : ''
-                                  }`}
-                                />
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
+                  <TableRow
+                    className="cursor-pointer transition-colors hover:bg-[#1e293b]/50"
+                    onClick={() => toggleRow(item.propertyId)}
+                  >
+                    <TableCell className="text-sm font-medium text-[#f8fafc]">
+                      {address}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-[#f8fafc]">
+                      {item.dscr.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-[#94a3b8]">
+                      {item.monthsOccupied}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell text-sm text-[#f8fafc]">
+                      {formatCurrency(item.estimatedAppraisal)}
+                    </TableCell>
+                    <TableCell className="text-sm font-medium text-[#10b981]">
+                      {formatCurrency(item.estimatedCashOut)}
+                    </TableCell>
+                    <TableCell>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                          ready
+                            ? 'bg-[#10b981]/15 text-[#10b981]'
+                            : 'bg-[#f97316]/15 text-[#f97316]'
+                        }`}
+                      >
+                        {ready ? 'Ready' : 'Not Ready'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="w-10">
+                      <ChevronDown
+                        className={`h-4 w-4 text-[#64748b] transition-transform duration-200 ${
+                          isExpanded ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </TableCell>
+                  </TableRow>
 
-                    {/* Expanded Detail */}
-                    <AnimatePresence>
-                      {isExpanded && (
+                  {/* Expanded Detail */}
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <TableRow>
+                        <TableCell colSpan={7} className="p-0">
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: 'auto', opacity: 1 }}
@@ -435,9 +424,11 @@ export default function Refinance() {
                           </div>
                         </motion.div>
                       )}
-                    </AnimatePresence>
-                  </TableCell>
-                </motion.tr>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </AnimatePresence>
+                </React.Fragment>
               )
             })}
           </TableBody>
